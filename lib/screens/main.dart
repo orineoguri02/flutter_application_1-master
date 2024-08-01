@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'loginpage.dart';
+import 'package:flutter_application_1/screens/splash1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,13 +12,6 @@ class Homepage extends StatelessWidget {
   const Homepage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Firebase Login',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const LoginPage(),
-    );
+    return MaterialApp(debugShowCheckedModeBanner: false, home: Splash1());
   }
 }

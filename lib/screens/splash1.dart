@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/loginpage.dart';
+
+import 'dart:async';
+
+class Splash1 extends StatefulWidget {
+  const Splash1({super.key});
+
+  @override
+  State<Splash1> createState() => _Splash1State();
+}
+
+class _Splash1State extends State<Splash1> {
+  @override
+  void initState() {
+    super.initState(); // 부모 클래스의 initState 호출
+    Timer(Duration(milliseconds: 2000), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoginMainScreen()), // LoginMainScreen으로 이동
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+                width: 300,
+                height: 300,
+                child: Image.asset('assets/firstlogo.png'))
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LoginMainScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: LoginPage(),
+    );
+  }
+}
