@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({Key? key}) : super(key: key);
+
   @override
   _SignupPageState createState() => _SignupPageState();
 }
@@ -11,18 +12,30 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<void> _signup() async {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('이메일 및 비밀번호를 입력하세요.')),
+      );
+      return;
+    }
+
     try {
       UserCredential userCredential =
           await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+        email: email,
+        password: password,
       );
       // 회원가입 성공 후 동작
       print("회원가입 성공: ${userCredential.user?.email}");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: const Text('회원가입 성공!')),
+        const SnackBar(content: Text('회원가입 성공!')),
       );
+      // 회원가입 후 다른 페이지로 이동할 수 있습니다.
     } catch (e) {
       // 회원가입 실패 시 에러 메시지 출력
       print("회원가입 실패: $e");
@@ -69,6 +82,7 @@ class _SignupPageState extends State<SignupPage> {
             TextButton(
               onPressed: () {
                 // 로그인 페이지로 이동하는 코드 추가
+                Navigator.pop(context); // 예시로 이전 페이지로 돌아가는 코드
               },
               child: const Text('이미 계정이 있으신가요? 로그인'),
             ),
