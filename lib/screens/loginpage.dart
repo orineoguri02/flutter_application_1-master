@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application_1/screens/membership.dart';
+import 'package:flutter_application_1/screens/Signuppage.dart';
+import 'package:flutter_application_1/screens/home/view/home_screen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -19,12 +20,14 @@ class _LoginPageState extends State<LoginPage> {
         password: _passwordController.text.trim(),
       );
       // 로그인 성공 후 동작
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
       print("로그인 성공: ${userCredential.user?.email}");
     } catch (e) {
       // 로그인 실패 시 에러 메시지 출력
       print("로그인 실패: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('로그인 실패: ${e.toString()}')),
+        SnackBar(content: Text('로그인 실패: 다시 입력해주세요 ')),
       );
     }
   }
@@ -32,9 +35,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('로그인'),
-      ),
+      appBar:
+          AppBar(title: const Text('로그인'), automaticallyImplyLeading: false),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

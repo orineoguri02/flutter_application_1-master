@@ -13,6 +13,7 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Firebase Login',
       theme: ThemeData(
         primarySwatch: Colors.blue,
