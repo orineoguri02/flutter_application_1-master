@@ -48,14 +48,14 @@ class _SignupPageState extends State<SignupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('회원가입'),
-      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 90,
+            ),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
@@ -92,10 +92,8 @@ class _SignupPageState extends State<SignupPage> {
               keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _signup,
-              child: const Text('회원가입'),
-            ),
+            TextButton(
+                onPressed: _signup, child: Image.asset('assets/sign.png')),
             const SizedBox(height: 8.0),
             TextButton(
               onPressed: () {
