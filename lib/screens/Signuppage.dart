@@ -59,12 +59,21 @@ class _SignupPageState extends State<SignupPage> {
             TextField(
               controller: _emailController,
               decoration: InputDecoration(
+                labelText: '닉네임',
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.emailAddress,
+            ),
+            const SizedBox(height: 13.0),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(
                 labelText: '이메일',
                 border: OutlineInputBorder(),
               ),
               keyboardType: TextInputType.emailAddress,
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 13.0),
             TextField(
               controller: _passwordController,
               decoration: InputDecoration(
@@ -72,6 +81,15 @@ class _SignupPageState extends State<SignupPage> {
                 border: OutlineInputBorder(),
               ),
               obscureText: true,
+            ),
+            const SizedBox(height: 13.0),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(
+                labelText: '비밀번호 확인',
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.emailAddress,
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
