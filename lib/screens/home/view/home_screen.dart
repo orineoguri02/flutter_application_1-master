@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/map.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,8 +31,35 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: Text('홈 화면 내용'),
+      body: Align(
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            Container(
+              width: 200,
+              height: 200,
+              child: Image.asset('assets/firstlogo.png'),
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MapPage()));
+                    },
+                    child: Text('식당')),
+                TextButton(onPressed: () {}, child: Text('카페')),
+                TextButton(onPressed: () {}, child: Text('놀거리')),
+                TextButton(onPressed: () {}, child: Text('공연')),
+                TextButton(onPressed: () {}, child: Text('몰라'))
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

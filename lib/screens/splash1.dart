@@ -18,7 +18,7 @@ class _Splash1State extends State<Splash1> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => LoginMainScreen()), // LoginMainScreen으로 이동
+            builder: (context) => LoginPage()), // LoginMainScreen으로 이동
       );
     });
   }
@@ -38,15 +38,6 @@ class _Splash1State extends State<Splash1> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class LoginMainScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: LoginPage(),
     );
   }
 }
