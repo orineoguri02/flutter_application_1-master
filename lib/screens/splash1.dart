@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/loginpage.dart';
 
 import 'dart:async';
+
+import 'package:flutter_application_1/screens/splashScreen.dart';
 
 class Splash1 extends StatefulWidget {
   const Splash1({super.key});
@@ -18,7 +19,7 @@ class _Splash1State extends State<Splash1> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => LoginPage()), // LoginMainScreen으로 이동
+            builder: (context) => SplashScreen()), // LoginMainScreen으로 이동
       );
     });
   }
