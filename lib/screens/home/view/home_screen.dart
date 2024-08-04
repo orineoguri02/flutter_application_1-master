@@ -20,160 +20,161 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(100.0),
-          child: AppBar(
-            automaticallyImplyLeading: false, // 기본 뒤로가기 버튼 숨기기
-            actions: [
-              IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.search,
-                  size: 35,
-                ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0),
+        child: AppBar(
+          automaticallyImplyLeading: false, // 기본 뒤로가기 버튼 숨기기
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.search,
+                size: 35,
               ),
-            ],
-            flexibleSpace: Center(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Container(
-                    width: 200,
-                    height: 100,
-                    child: Image.asset('assets/firstlogo.png'),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        body: Align(
-          alignment: Alignment.topCenter,
-          child: Column(
-            children: [
-              Cardscrol(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MapPage()));
-                          },
-                          child: SizedBox(
-                              height: 60,
-                              width: 50,
-                              child: Image.asset('assets/bob.png'))),
-                      TextButton(
-                          onPressed: () {},
-                          child: SizedBox(
-                              height: 60,
-                              width: 50,
-                              child: Image.asset('assets/display.png'))),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MapPage()));
-                          },
-                          child: SizedBox(
-                              height: 70,
-                              width: 70,
-                              child: Image.asset('assets/cafe1.png'))),
-                      TextButton(
-                          onPressed: () {},
-                          child: SizedBox(
-                              height: 70,
-                              width: 60,
-                              child: Image.asset('assets/play.png'))),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MapPage()));
-                          },
-                          child: SizedBox(
-                              height: 70,
-                              width: 40,
-                              child: Image.asset('assets/park.png'))),
-                      TextButton(
-                          onPressed: () {},
-                          child: SizedBox(
-                              height: 60,
-                              width: 50,
-                              child: Image.asset('assets/all.png'))),
-                    ],
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Container(
-                decoration: BoxDecoration(
-                  color: _selectedIndex == 0
-                      ? Colors.grey.shade300
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                      _selectedIndex == 0 ? Colors.black : Colors.grey,
-                      BlendMode.srcIn,
-                    ),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.home),
-                      iconSize: 40,
-                    )),
-              ),
-              label: '홈',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                decoration: BoxDecoration(
-                  color: _selectedIndex == 3
-                      ? Colors.grey.shade300
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                      _selectedIndex == 3 ? Colors.black : Colors.grey,
-                      BlendMode.srcIn,
-                    ),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.menu),
-                      iconSize: 40,
-                    )),
-              ),
-              label: '메뉴',
             ),
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.black,
-          onTap: _onItemTapped,
-        ));
+          flexibleSpace: Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                Container(
+                  width: 200,
+                  height: 100,
+                  child: Image.asset('assets/firstlogo.png'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: Column(
+          children: [
+            Cardscrol(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapPage()));
+                        },
+                        child: SizedBox(
+                            height: 60,
+                            width: 50,
+                            child: Image.asset('assets/bob.png'))),
+                    TextButton(
+                        onPressed: () {},
+                        child: SizedBox(
+                            height: 60,
+                            width: 50,
+                            child: Image.asset('assets/display.png'))),
+                  ],
+                ),
+                Column(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapPage()));
+                        },
+                        child: SizedBox(
+                            height: 70,
+                            width: 70,
+                            child: Image.asset('assets/cafe1.png'))),
+                    TextButton(
+                        onPressed: () {},
+                        child: SizedBox(
+                            height: 70,
+                            width: 60,
+                            child: Image.asset('assets/play.png'))),
+                  ],
+                ),
+                Column(
+                  children: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapPage()));
+                        },
+                        child: SizedBox(
+                            height: 70,
+                            width: 40,
+                            child: Image.asset('assets/park.png'))),
+                    TextButton(
+                        onPressed: () {},
+                        child: SizedBox(
+                            height: 60,
+                            width: 50,
+                            child: Image.asset('assets/all.png'))),
+                  ],
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Container(
+              decoration: BoxDecoration(
+                color: _selectedIndex == 0
+                    ? Colors.grey.shade300
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    _selectedIndex == 0 ? Colors.black : Colors.grey,
+                    BlendMode.srcIn,
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.home),
+                    iconSize: 40,
+                  )),
+            ),
+            label: '홈',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              decoration: BoxDecoration(
+                color: _selectedIndex == 3
+                    ? Colors.grey.shade300
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    _selectedIndex == 3 ? Colors.black : Colors.grey,
+                    BlendMode.srcIn,
+                  ),
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.menu),
+                    iconSize: 40,
+                  )),
+            ),
+            label: '메뉴',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.black,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/infopage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -11,9 +14,10 @@ class MapPage extends StatefulWidget {
 
 class _MapState extends State<MapPage> {
   late GoogleMapController mapController;
+  Set<Marker> _markers = {};
 
-  final LatLng _center = const LatLng(36.102232, 129.3897838);
-  final _list = ['One', 'Two', 'Three', 'Four'];
+  final LatLng _center = const LatLng(37.54399751021019, 127.04642327420501);
+  final _list = ['서울', '대구', '포항', '대전'];
   String _selectedCity = '';
   void initState() {
     super.initState();
@@ -24,6 +28,21 @@ class _MapState extends State<MapPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId('marker_1'),
+          position: LatLng(37.54399751021019, 127.04642327420501),
+          infoWindow: InfoWindow(
+              title: '오뜨로 성수',
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => InfoPage()));
+              }),
+        ),
+      );
+    });
   }
 
   @override
@@ -57,32 +76,43 @@ class _MapState extends State<MapPage> {
       body: Stack(
         children: [
           GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 11.0,
-            ),
-          ),
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
+              ),
+              markers: _markers),
           DraggableScrollableSheet(
-              initialChildSize: 0.3,
-              minChildSize: 0.1,
-              maxChildSize: 0.95,
-              builder:
-                  (BuildContext context, ScrollController scrollController) {
-                return Container(
-                  color: Colors.white,
-                  child: SingleChildScrollView(
-                      controller: scrollController,
-                      child: Column(
-                        children: [
-                          Card(
-                              child: Padding(
-                                  padding: EdgeInsets.all(16.0),
-                                  child: Text('Item 1'))),
-                        ],
-                      )),
-                );
-              })
+            initialChildSize: 0.3,
+            minChildSize: 0.1,
+            maxChildSize: 0.95,
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Container(
+                color: Colors.white,
+                child: SingleChildScrollView(
+                    controller: scrollController,
+                    child: Column(
+                      children: [
+                        Card(
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: ListTile(
+                                title: TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  InfoPage()));
+                                    },
+                                    child: Text('일단 테스트'))),
+                          ),
+                        ),
+                      ],
+                    )),
+              );
+            },
+          )
         ],
       ),
     );
