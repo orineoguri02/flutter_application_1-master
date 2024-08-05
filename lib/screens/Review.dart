@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_1/screens/home/view/Rating.dart';
 
 class ReviewPage1 extends StatefulWidget {
   @override
@@ -24,6 +25,29 @@ class _ReviewPage1State extends State<ReviewPage1> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Row(
+          children: [
+            SizedBox(
+              width: 50,
+            ),
+            CircleAvatar(
+              backgroundImage: AssetImage('assets/gungun.png'),
+            ),
+            SizedBox(
+              width: 40,
+            ),
+            SizedBox(
+              height: 50,
+              width: 200,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Rating1()));
+                  },
+                  child: Image.asset('assets/rating1.png')),
+            ),
+          ],
+        ),
         Expanded(
           child: StreamBuilder<QuerySnapshot>(
             stream: _firestore
@@ -58,7 +82,11 @@ class _ReviewPage1State extends State<ReviewPage1> {
             },
           ),
         ),
-        Padding(
+      ],
+    );
+  }
+}
+        /*Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
@@ -74,8 +102,5 @@ class _ReviewPage1State extends State<ReviewPage1> {
               ),
             ],
           ),
-        ),
-      ],
-    );
-  }
-}
+        ),*/
+        
