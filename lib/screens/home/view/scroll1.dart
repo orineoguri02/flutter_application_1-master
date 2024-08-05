@@ -23,7 +23,7 @@ class _CaedscrolState extends State<Cardscrol> {
               child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  child: Image.asset('assets/test1.png')),
+                  child: Image.asset('assets/ban1.png')),
             ),
           ),
           Container(
@@ -34,7 +34,7 @@ class _CaedscrolState extends State<Cardscrol> {
               child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  child: Image.asset('assets/test1.png')),
+                  child: Image.asset('assets/ban2.png')),
             ),
           ),
           Container(
@@ -45,7 +45,7 @@ class _CaedscrolState extends State<Cardscrol> {
               child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  child: Image.asset('assets/test1.png')),
+                  child: Image.asset('assets/ban3.png')),
             ),
           ),
           Container(
@@ -56,7 +56,7 @@ class _CaedscrolState extends State<Cardscrol> {
               child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
-                  child: Image.asset('assets/test1.png')),
+                  child: Image.asset('assets/ban4.png')),
             ),
           ),
         ]));

@@ -35,6 +35,16 @@ class _ReviewPage1State extends State<ReviewPage1> {
                 return Center(child: CircularProgressIndicator());
               }
 
+              if (snapshot.hasError) {
+                return Center(child: Text('오류 발생: ${snapshot.error}'));
+              }
+
+              if (!snapshot.hasData ||
+                  snapshot.data == null ||
+                  snapshot.data!.docs.isEmpty) {
+                return Center(child: Text('리뷰가 없습니다.'));
+              }
+
               final reviews = snapshot.data!.docs;
 
               return ListView.builder(

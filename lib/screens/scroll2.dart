@@ -23,7 +23,7 @@ class Scroll2 extends StatelessWidget {
                   child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
-                      child: Image.asset('assets/test1.png')),
+                      child: Image.asset('assets/san1.png')),
                 ),
                 Container(
                   width: 200,
@@ -31,7 +31,7 @@ class Scroll2 extends StatelessWidget {
                   child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
-                      child: Image.asset('assets/test1.png')),
+                      child: Image.asset('assets/san2.png')),
                 ),
                 Container(
                   width: 200,
@@ -39,7 +39,7 @@ class Scroll2 extends StatelessWidget {
                   child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
-                      child: Image.asset('assets/test1.png')),
+                      child: Image.asset('assets/san3.png')),
                 ),
                 Container(
                   width: 200,
@@ -47,7 +47,7 @@ class Scroll2 extends StatelessWidget {
                   child: Card(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
-                      child: Image.asset('assets/test1.png')),
+                      child: Image.asset('assets/san4.png')),
                 ),
               ])),
         ],

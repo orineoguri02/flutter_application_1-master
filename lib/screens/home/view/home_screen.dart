@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/home/view/menu.dart';
 import 'package:flutter_application_1/screens/home/view/scroll1.dart';
 import 'package:flutter_application_1/screens/map.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index; // 선택된 인덱스 변경
+      _selectedIndex = index;
     });
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MenuPage()),
+      );
+    }
   }
 
   @override
@@ -23,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(100.0),
         child: AppBar(
-          automaticallyImplyLeading: false, // 기본 뒤로가기 버튼 숨기기
+          automaticallyImplyLeading: false,
           actions: [
             IconButton(
               onPressed: () {},
@@ -137,36 +144,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                    _selectedIndex == 0 ? Colors.black : Colors.grey,
-                    BlendMode.srcIn,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.home),
-                    iconSize: 40,
-                  )),
+                colorFilter: ColorFilter.mode(
+                  _selectedIndex == 0 ? Colors.black : Colors.grey,
+                  BlendMode.srcIn,
+                ),
+                child: Icon(
+                  Icons.home,
+                  size: 40,
+                ),
+              ),
             ),
             label: '홈',
           ),
           BottomNavigationBarItem(
             icon: Container(
               decoration: BoxDecoration(
-                color: _selectedIndex == 3
+                color: _selectedIndex == 1
                     ? Colors.grey.shade300
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                    _selectedIndex == 3 ? Colors.black : Colors.grey,
-                    BlendMode.srcIn,
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.menu),
-                    iconSize: 40,
-                  )),
+                colorFilter: ColorFilter.mode(
+                  _selectedIndex == 1 ? Colors.black : Colors.grey,
+                  BlendMode.srcIn,
+                ),
+                child: Icon(
+                  Icons.menu,
+                  size: 40,
+                ),
+              ),
             ),
             label: '메뉴',
           ),
@@ -174,6 +181,14 @@ class _HomeScreenState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         onTap: _onItemTapped,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
+        shape: CircleBorder(),
+        child: const Icon(Icons.add),
       ),
     );
   }
