@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/Review.dart';
 import 'package:flutter_application_1/screens/scroll2.dart';
 
 class InfoPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _InfoPageState extends State<InfoPage> {
               SizedBox(height: 4),
               Image.asset(
                 'assets/star1.png',
-                height: 20, // 이미지 크기 조정
+                height: 20,
                 fit: BoxFit.contain,
               ),
             ],
@@ -56,7 +57,7 @@ class _InfoPageState extends State<InfoPage> {
             ),
           ],
           leading: Padding(
-            padding: const EdgeInsets.only(bottom: 45), // 위쪽 여백 설정
+            padding: const EdgeInsets.only(bottom: 45),
             child: IconButton(
               icon: Icon(Icons.arrow_back_ios),
               onPressed: () {
@@ -65,37 +66,36 @@ class _InfoPageState extends State<InfoPage> {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                SizedBox(width: 10),
-                SizedBox(width: 60, child: Image.asset('assets/parking1.png')),
-                SizedBox(width: 60, child: Image.asset('assets/wheelgo.png')),
-                SizedBox(width: 60, child: Image.asset('assets/usewheel.png')),
-                SizedBox(width: 30),
-              ],
-            ),
-            Scroll2(),
-            const TabBar(
-              tabs: [
-                Tab(text: '리뷰'),
-                Tab(text: '정보'),
-                Tab(text: '메뉴'),
-              ],
-            ),
-            Expanded(
-              // 남은 공간을 차지하게 함
-              child: const TabBarView(
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Center(child: Text('탭 1의 내용')),
-                  Center(child: Text('탭 2의 내용')),
-                  Center(child: Text('탭 3의 내용')),
+                  Image.asset('assets/parking1.png', width: 60),
+                  Image.asset('assets/wheelgo.png', width: 60),
+                  Image.asset('assets/usewheel.png', width: 60),
                 ],
               ),
-            ),
-          ],
+              Scroll2(),
+              const TabBar(
+                tabs: [
+                  Tab(text: '리뷰'),
+                  Tab(text: '정보'),
+                  Tab(text: '메뉴'),
+                ],
+              ),
+              Container(
+                height: 300,
+                child: const TabBarView(
+                  children: [
+                    Center(child: Text('탭 2의 내용')),
+                    Center(child: Text('탭 3의 내용')),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

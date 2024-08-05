@@ -16,7 +16,7 @@ class _MapState extends State<MapPage> {
   late GoogleMapController mapController;
   Set<Marker> _markers = {};
 
-  final LatLng _center = const LatLng(37.54399751021019, 127.04642327420501);
+  final LatLng _center = const LatLng(37.5758772, 126.9768121);
   final _list = ['서울', '대구', '포항', '대전'];
   String _selectedCity = '';
   void initState() {
