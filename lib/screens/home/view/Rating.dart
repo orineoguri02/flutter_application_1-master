@@ -20,11 +20,16 @@ class _Rating1State extends State<Rating1> {
 
   // 별점을 제출하는 함수
   void _submitRating() {
+    String reviewText = _textController.text.trim();
     // 별점이 0보다 큰 경우에만 제출
-    if (_rating1 > 0) {
+    if (_rating1 > 0 && _rating2 > 0 && _rating3 > 0 && _rating4 > 0) {
       // Firestore의 'ratings' 컬렉션에 별점 추가
       _firestore.collection('ratings').add({
-        'rating': _rating1, // 선택한 별점
+        'rating': _rating1,
+        'wheelchair_access': _rating2,
+        'wheelchair_seating': _rating3,
+        'kindness': _rating4,
+        'review': reviewText, // 선택한 별점
         'timestamp': FieldValue.serverTimestamp(), // 서버 타임스탬프
       }).then((_) {
         // 성공적으로 저장된 경우
@@ -33,7 +38,12 @@ class _Rating1State extends State<Rating1> {
         );
         // 상태를 초기화하여 별점 선택 초기화
         setState(() {
-          _rating1 = 0; // 별점 초기화
+          _rating1 = 0;
+          _rating2 = 0;
+          _rating3 = 0;
+          _rating4 = 0;
+          _textController.clear();
+          // 별점 초기화
         });
       }).catchError((error) {
         // 오류 발생 시
@@ -44,7 +54,7 @@ class _Rating1State extends State<Rating1> {
     } else {
       // 별점을 선택하지 않은 경우
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('별점을 선택하세요!')), // 별점 선택 요청
+        SnackBar(content: Text('모든 항목의 별점을 선택하세요!')), // 별점 선택 요청
       );
     }
   }
@@ -197,10 +207,12 @@ class _Rating1State extends State<Rating1> {
 
             SizedBox(height: 50), // 텍스트 필드와 버튼 사이의 여백
             ElevatedButton(
-              onPressed: _submitRating,
-              // 버튼 클릭 시 제출 함수 호출
-              child: Image.asset('assets/finish1.png'), // 버튼 텍스트
-            ),
+              onPressed: () {
+                _submitRating(); // 평점 제출 함수 호출
+                Navigator.pop(context); // 현재 페이지를 닫음
+              },
+              child: Text('제출'), // 버튼 텍스트
+            )
           ],
         ),
       ),
