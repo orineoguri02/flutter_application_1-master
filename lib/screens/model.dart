@@ -1,15 +1,41 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application_1/screens/scroll2.dart';
 
 class InfoPage extends StatefulWidget {
-  const InfoPage({super.key});
-
   @override
   State<InfoPage> createState() => _InfoPageState();
 }
 
 class _InfoPageState extends State<InfoPage> {
+  String? address; // 주소
+  String? name; // 이름
+  String? starImageUrl; // 별 이미지 URL
+  List<String> imageUrls = []; // 이미지 URL 리스트
+
+  Future<void> fetchImages() async {
+    try {
+      String folderPath = 'wheel/'; // Firebase Storage의 폴더 경로
+      final ListResult result =
+          await FirebaseStorage.instance.ref(folderPath).listAll();
+
+      List<String> urls = [];
+      for (var ref in result.items) {
+        String url = await ref.getDownloadURL(); // 각 이미지의 URL 가져오기
+        urls.add(url);
+      }
+
+      setState(() {
+        imageUrls = urls; // 가져온 URL 리스트로 상태 업데이트
+      });
+    } catch (e) {
+      print('Error fetching images: $e');
+      setState(() {
+        imageUrls = []; // 에러 발생 시 빈 리스트로 초기화
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -24,21 +50,24 @@ class _InfoPageState extends State<InfoPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 150),
                   child: Text(
-                    '오뜨로 성수',
+                    name ?? '이름을 가져오는 중...',
                     style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
                   ),
                 ),
                 SizedBox(height: 4),
                 Text(
-                  '서울특별시 성동구 뚝섬로1길 31 (성수동1가)',
+                  address ?? '주소를 가져오는 중...',
                   style: TextStyle(fontSize: 14),
                 ),
                 SizedBox(height: 4),
-                Image.asset(
-                  'assets/star1.png',
-                  height: 20,
-                  fit: BoxFit.contain,
-                ),
+                imageUrls.isNotEmpty
+                    ? Image.network(
+                        imageUrls[0], // 첫 번째 이미지를 표시
+                        height: 20,
+                        fit: BoxFit.contain,
+                      )
+                    : CircularProgressIndicator(), // 로딩 상태 표시
+                // 로딩 상태 표시
               ],
             ),
           ),
@@ -72,13 +101,18 @@ class _InfoPageState extends State<InfoPage> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Image.asset('assets/parking1.png', width: 60),
-                Image.asset('assets/wheelgo.png', width: 60),
-                Image.asset('assets/usewheel.png', width: 60),
-              ],
+              children: List.generate(3, (index) {
+                int imageIndex = index + 1; // 1, 2, 3 번째 이미지를 표시
+                return imageUrls.length > imageIndex
+                    ? Image.network(
+                        imageUrls[imageIndex],
+                        width: 60,
+                        fit: BoxFit.contain,
+                      )
+                    : Container(); // 이미지가 없는 경우 빈 컨테이너
+              }),
             ),
-            Scroll2(),
+            Scroll2(), // Scroll2()는 별도의 위젯으로 가정
             const TabBar(
               tabs: [
                 Tab(text: '리뷰'),
@@ -89,7 +123,7 @@ class _InfoPageState extends State<InfoPage> {
             Expanded(
               child: TabBarView(
                 children: [
-                  ReviewPage1(),
+                  ReviewPage1(), // 리뷰 페이지
                   Center(child: Text('탭 2의 내용')),
                   Center(child: Text('탭 3의 내용')),
                 ],
@@ -100,7 +134,9 @@ class _InfoPageState extends State<InfoPage> {
       ),
     );
   }
-} //리뷰기능임
+}
+
+//리뷰기능임
 
 class Rating1 extends StatefulWidget {
   const Rating1({super.key});
@@ -420,6 +456,88 @@ class _ReviewPage1State extends State<ReviewPage1> {
           child: ReviewList(),
         )
       ],
+    );
+  }
+}
+
+class Scroll2 extends StatefulWidget {
+  // banner부분
+  const Scroll2({super.key});
+
+  @override
+  State<Scroll2> createState() => _Scroll2State();
+}
+
+class _Scroll2State extends State<Scroll2> {
+  List<String> imageUrls = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchImages(); // 이미지 URL 가져오기
+  }
+
+  Future<void> fetchImages() async {
+    try {
+      String folderPath = 'info_banner/'; // Firebase Storage의 폴더 경로
+      final ListResult result =
+          await FirebaseStorage.instance.ref(folderPath).listAll();
+
+      List<String> urls = [];
+      for (var ref in result.items) {
+        String url = await ref.getDownloadURL(); // 각 이미지의 URL 가져오기
+        urls.add(url);
+      }
+
+      setState(() {
+        imageUrls = urls; // 가져온 URL 리스트로 상태 업데이트
+      });
+    } catch (e) {
+      print('Error fetching images: $e');
+      setState(() {
+        imageUrls = []; // 에러 발생 시 빈 리스트로 초기화
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Row(
+        children: [
+          SizedBox(width: 50),
+          Container(
+            height: 200,
+            width: 340,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount:
+                  imageUrls.isNotEmpty ? imageUrls.length : 1, // 이미지가 없으면 1로 설정
+              itemBuilder: (context, index) {
+                // 이미지가 없을 경우 로딩 인디케이터 표시
+                if (imageUrls.isEmpty) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                return Container(
+                  width: 200,
+                  height: 200,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Image.network(
+                      imageUrls[index], // 동적으로 URL 사용
+                      fit: BoxFit.cover, // 이미지 맞춤
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
