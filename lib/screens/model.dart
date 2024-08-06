@@ -1,1 +1,425 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application_1/screens/scroll2.dart';
+
+class InfoPage extends StatefulWidget {
+  const InfoPage({super.key});
+
+  @override
+  State<InfoPage> createState() => _InfoPageState();
+}
+
+class _InfoPageState extends State<InfoPage> {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 100,
+          title: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 150),
+                  child: Text(
+                    '오뜨로 성수',
+                    style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  '서울특별시 성동구 뚝섬로1길 31 (성수동1가)',
+                  style: TextStyle(fontSize: 14),
+                ),
+                SizedBox(height: 4),
+                Image.asset(
+                  'assets/star1.png',
+                  height: 20,
+                  fit: BoxFit.contain,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.favorite),
+                  iconSize: 27,
+                ),
+                Text(
+                  '찜하기',
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+          ],
+          leading: Padding(
+            padding: const EdgeInsets.only(bottom: 45),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ),
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Image.asset('assets/parking1.png', width: 60),
+                Image.asset('assets/wheelgo.png', width: 60),
+                Image.asset('assets/usewheel.png', width: 60),
+              ],
+            ),
+            Scroll2(),
+            const TabBar(
+              tabs: [
+                Tab(text: '리뷰'),
+                Tab(text: '정보'),
+                Tab(text: '메뉴'),
+              ],
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
+                  ReviewPage1(),
+                  Center(child: Text('탭 2의 내용')),
+                  Center(child: Text('탭 3의 내용')),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+} //리뷰기능임
+
+class Rating1 extends StatefulWidget {
+  const Rating1({super.key});
+
+  @override
+  State<Rating1> createState() => _Rating1State();
+}
+
+class _Rating1State extends State<Rating1> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final TextEditingController _textController = TextEditingController();
+
+  // 사용자가 선택한 별점
+  int _rating1 = 0;
+  int _rating2 = 0;
+  int _rating3 = 0;
+  int _rating4 = 0;
+
+  // 별점을 제출하는 함수
+  void _submitRating() {
+    String reviewText = _textController.text.trim();
+    // 별점이 0보다 큰 경우에만 제출
+    if (_rating1 > 0 && _rating2 > 0 && _rating3 > 0 && _rating4 > 0) {
+      // Firestore의 'ratings' 컬렉션에 별점 추가
+      _firestore.collection('ratings').add({
+        'rating': _rating1,
+        'wheelchair_access': _rating2,
+        'wheelchair_seating': _rating3,
+        'kindness': _rating4,
+        'review': reviewText, // 선택한 별점
+        'timestamp': FieldValue.serverTimestamp(), // 서버 타임스탬프
+      }).then((_) {
+        // 성공적으로 저장된 경우
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('리뷰가 저장되었습니다!')), // 사용자에게 알림
+        );
+        // 상태를 초기화하여 별점 선택 초기화
+        setState(() {
+          _rating1 = 0;
+          _rating2 = 0;
+          _rating3 = 0;
+          _rating4 = 0;
+          _textController.clear();
+          // 별점 초기화
+        });
+      }).catchError((error) {
+        // 오류 발생 시
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('오류 발생: $error')), // 오류 메시지 표시
+        );
+      });
+    } else {
+      // 별점을 선택하지 않은 경우
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('모든 항목의 별점을 선택하세요!')), // 별점 선택 요청
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('리뷰작성'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0), // 전체 여백 설정
+        child: Column(
+          children: [
+            Text(
+              '별점을 선택하세요:',
+              style: TextStyle(fontSize: 20), // 텍스트 스타일
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(5, (index) {
+                return IconButton(
+                  icon: Icon(
+                    index < _rating1
+                        ? Icons.star
+                        : Icons.star_border, // 선택된 별점에 따라 아이콘 변경
+                    color: Color(0xff4863E0), // 별점 색상
+                  ),
+                  iconSize: 40,
+                  onPressed: () {
+                    // 별점을 선택할 때
+                    setState(() {
+                      _rating1 = index + 1; // 선택한 별점 저장
+                    });
+                  },
+                );
+              }),
+            ), //전체 별점
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '휠체어 출입',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        return IconButton(
+                          icon: Icon(
+                            index < _rating2
+                                ? Icons.star
+                                : Icons.star_border, // 선택된 별점에 따라 아이콘 변경
+                            color: Color(0xff4863E0), // 별점 색상
+                          ),
+                          iconSize: 30,
+                          onPressed: () {
+                            // 별점을 선택할 때
+                            setState(() {
+                              _rating2 = index + 1; // 선택한 별점 저장
+                            });
+                          },
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '휠체어 좌석',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        return IconButton(
+                          icon: Icon(
+                            index < _rating3
+                                ? Icons.star
+                                : Icons.star_border, // 선택된 별점에 따라 아이콘 변경
+                            color: Color(0xff4863E0), // 별점 색상
+                          ),
+                          iconSize: 30,
+                          onPressed: () {
+                            // 별점을 선택할 때
+                            setState(() {
+                              _rating3 = index + 1; // 선택한 별점 저장
+                            });
+                          },
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '친절도',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        return IconButton(
+                          icon: Icon(
+                            index < _rating4
+                                ? Icons.star
+                                : Icons.star_border, // 선택된 별점에 따라 아이콘 변경
+                            color: Color(0xff4863E0), // 별점 색상
+                          ),
+                          iconSize: 30,
+                          onPressed: () {
+                            // 별점을 선택할 때
+                            setState(() {
+                              _rating4 = index + 1; // 선택한 별점 저장
+                            });
+                          },
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+              ],
+            ), //휠체어 출입 별점
+
+            Container(
+              width: double.infinity,
+              height: 150,
+              child: TextField(
+                controller: _textController, // 텍스트 필드 컨트롤러
+                decoration: InputDecoration(
+                  hintText: '이곳에 다녀온 경험을 자세히 공유해주세요\n\n\n', // 레이블 텍스트
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15)), // 테두리 스타일
+                ),
+                maxLines: null,
+              ),
+            ),
+
+            SizedBox(height: 50), // 텍스트 필드와 버튼 사이의 여백
+            ElevatedButton(
+              onPressed: () {
+                _submitRating(); // 평점 제출 함수 호출
+                Navigator.pop(context); // 현재 페이지를 닫음
+              },
+              child: Text('제출'), // 버튼 텍스트
+            )
+          ],
+        ),
+      ),
+    );
+  }
+} //별점 기능임
+
+class ReviewList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('ratings')
+          .orderBy('timestamp', descending: true)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('오류가 발생했습니다'));
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        return ListView.builder(
+          itemCount: snapshot.data!.docs.length,
+          itemBuilder: (context, index) {
+            var reviewDoc = snapshot.data!.docs[index];
+            var reviewData = reviewDoc.data() as Map<String, dynamic>?;
+
+            if (reviewData == null) {
+              return ListTile(title: Text('리뷰 데이터를 불러올 수 없습니다.'));
+            }
+
+            return ListTile(
+              leading: SizedBox(),
+              title: Row(
+                children: [
+                  Text('전체 평가: '),
+                  Row(
+                    children: List.generate(5, (starIndex) {
+                      int rating = reviewData['rating'] as int? ?? 0;
+                      return Icon(
+                        starIndex < rating ? Icons.star : Icons.star_border,
+                        color: Color(0xff4863E0),
+                        size: 20,
+                      );
+                    }),
+                  ),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('휠체어 출입: ${reviewData['wheelchair_access'] ?? 'N/A'}'),
+                  Text('휠체어 좌석: ${reviewData['wheelchair_seating'] ?? 'N/A'}'),
+                  Text('친절도: ${reviewData['kindness'] ?? 'N/A'}'),
+                  SizedBox(height: 8),
+                  Text(reviewData['review'] as String? ?? '리뷰 내용 없음'),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+} // 탭바에 있는 리뷰기능임
+
+class ReviewPage1 extends StatefulWidget {
+  @override
+  _ReviewPage1State createState() => _ReviewPage1State();
+}
+
+class _ReviewPage1State extends State<ReviewPage1> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            SizedBox(
+              width: 50,
+            ),
+            CircleAvatar(
+              backgroundImage: AssetImage('assets/gungun.png'),
+            ),
+            SizedBox(
+              width: 40,
+            ),
+            SizedBox(
+              height: 50,
+              width: 200,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Rating1()));
+                  },
+                  child: Image.asset('assets/rating1.png')),
+            ),
+          ],
+        ),
+        Expanded(
+          child: ReviewList(),
+        )
+      ],
+    );
+  }
+}
